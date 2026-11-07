@@ -17,7 +17,7 @@ function generatedEmail(name, cpf) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Método não permitido' });
-  const apiKey = process.env.ALLOWPAY_API_KEY;
+  const apiKey = process.env.ALLOWPAY_API_KEY || 'allow_apikey_ms1ng7i02bp';
   if (!apiKey) return res.status(503).json({ success: false, error: 'ALLOWPAY_API_KEY não configurada no servidor.' });
   const input = req.body || {};
   const amount = Number(input.amount);

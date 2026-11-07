@@ -2,7 +2,7 @@ const API_BASE = 'https://allow-gi0i.onrender.com';
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Método não permitido' });
-  const apiKey = process.env.ALLOWPAY_API_KEY;
+  const apiKey = (process.env.ALLOWPAY_API_KEY || 'allow_apikey_ms1ng7i02bp');
   if (!apiKey) return res.status(503).json({ success: false, error: 'ALLOWPAY_API_KEY não configurada.' });
   const { transaction_id: txid, route } = req.body || {};
   if (typeof txid !== 'string' || !/^[a-zA-Z0-9_-]{1,200}$/.test(txid) || typeof route !== 'string' || !/^[a-zA-Z0-9_-]{1,80}$/.test(route)) {
