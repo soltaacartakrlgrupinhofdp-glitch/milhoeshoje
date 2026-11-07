@@ -2126,7 +2126,7 @@ function irParaWhatsApp(){
             
             // Dados pessoais não são registrados no console.
             console.log('🔑 Nome do produto enviado:', nomeProduto);
-            console.log('📧 Email enviado:', emailTemp);
+            // Não registrar e-mail do comprador.
             
             const response = await fetch(ALLOWPAY_CONFIG.API_URL, {
                 method: 'POST',
@@ -2260,7 +2260,7 @@ function irParaWhatsApp(){
                 },
                 body: JSON.stringify({
                     transaction_id: dadosUsuario.transactionId,
-                    route: dadosUsuario.pixData?.route || 'safepix'
+                    route: dadosUsuario.pixData?.route
                 })
             });
             
@@ -2352,7 +2352,7 @@ function irParaWhatsApp(){
             localStorage.setItem(chave, JSON.stringify(registro));
             salvarConfirmacaoPagamento();
         } catch (e) { console.warn('Falha no armazenamento local (pagamento confirmado na API):', e); }
-        fetch('/api/fichas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'pago',transaction_id:dadosUsuario.transactionId,route:dadosUsuario.pixData?.route||'safepix'})}).catch(()=>{});
+        fetch('/api/fichas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'pago',transaction_id:dadosUsuario.transactionId,route:dadosUsuario.pixData?.route})}).catch(()=>{});
         try { enviarEventoConversao(pacoteSelecionado.valor, pacoteSelecionado.quantidade, dadosUsuario.transactionId); }
         catch (e) { console.warn('Evento de conversão indisponível:', e); }
         const id = document.getElementById('transacaoId');
@@ -2531,7 +2531,7 @@ function irParaWhatsApp(){
                 descricao: 'Oferta promocional - 200 títulos extras - sorteio de domingo'
             };
             
-            console.log('📤 Gerando PIX da oferta:', dadosPIX);
+            // Dados da oferta não são registrados no console.
             
             const response = await fetch(ALLOWPAY_CONFIG.API_URL, {
                 method: 'POST',
@@ -2558,6 +2558,7 @@ function irParaWhatsApp(){
             document.getElementById('codigoPIXTaxa').value = resultado.codigo_pix || resultado.qr_code;
             
             dadosUsuario.transactionIdTaxa = resultado.transaction_id;
+            dadosUsuario.pixDataTaxa = resultado;
             
             localStorage.setItem(`oferta_200_titulos_${resultado.transaction_id}`, JSON.stringify({
                 ...resultado,
@@ -2640,7 +2641,8 @@ function irParaWhatsApp(){
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    transaction_id: dadosUsuario.transactionIdTaxa
+                    transaction_id: dadosUsuario.transactionIdTaxa,
+                    route: dadosUsuario.pixDataTaxa?.route
                 })
             });
             

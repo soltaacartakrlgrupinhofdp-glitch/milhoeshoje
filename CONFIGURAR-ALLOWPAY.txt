@@ -1,0 +1,18 @@
+ALLOWPAY V2 — CONFIGURAÇÃO
+
+Na Vercel > Settings > Environment Variables:
+  Nome: ALLOWPAY_API_KEY
+  Valor: sua chave de seller AllowPay
+  Ambiente: Production
+Salve e faça Redeploy.
+
+A chave não está incluída neste ZIP porque é uma credencial de produção.
+A chave compartilhada anteriormente deve ser rotacionada se tiver sido exposta.
+
+Fluxo: POST /api/allowpay -> salva txid e route -> POST /api/check-payment.
+O route é obrigatório para consultar status; não substitua por safepix.
+A confirmação é por polling; webhook não está configurado nesta versão.
+O e-mail automático usa @sorte.com conforme a preferência informada; use apenas
+se o domínio for autorizado e o provedor aceitar esse formato.
+
+Não foi realizado teste real de cobrança.
